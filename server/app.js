@@ -2,13 +2,18 @@ const http = require('http');
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const path = require('path');
 require("dotenv").config({ path: "./config/config.env" });
 const { Server } = require("socket.io");
 
 
 
-
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(cors());
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
 
 const server = http.createServer(app);
 
